@@ -7,7 +7,7 @@ group :jekyll_plugins do
   gem 'jekyll-redirect-from'
   gem 'jekyll-gist'
   gem 'jekyll-paginate'
-  gem 'sass-embedded', '~> 1.77.0'
+  gem 'sass-embedded', '~> 1.58.0'
   gem 'jemoji'
 end
 
