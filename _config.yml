@@ -313,6 +313,7 @@ plugins:
   - jekyll-sitemap
   - jekyll-redirect-from
   - jemoji
+  - jekyll-compress-html
 
 # Mimic GitHub Pages with --safe
 whitelist:
