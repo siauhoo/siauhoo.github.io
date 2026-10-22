@@ -36,8 +36,13 @@ jobs:
         uses: actions/configure-pages@v5
       - name: Build with Jekyll
         run: |
-          JEKYLL_ENV=production bundle exec jekyll build --baseurl "${{ steps.pages.outputs.base_path }}" \
-            || { echo "Jekyll build failed, exiting with error"; exit 1; }
+          JEKYLL_ENV=production bundle exec jekyll build --baseurl "${{ steps.pages.outputs.base_path }}" 2>&1 | tee /tmp/jekyll_build.log
+          if [ ${PIPESTATUS[0]} -ne 0 ]; then
+            echo "=== JEKYLL BUILD FAILED ==="
+            echo "=== Last 100 lines of build output ==="
+            tail -100 /tmp/jekyll_build.log
+            exit 1
+          fi
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
