@@ -9,6 +9,7 @@ group :jekyll_plugins do
   gem 'jekyll-paginate'
   gem 'sass-embedded', '~> 1.58.0'
   gem 'jemoji'
+  gem 'jekyll-compress-html'
 end
 
 gem 'kramdown'
