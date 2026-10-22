@@ -9,7 +9,6 @@ group :jekyll_plugins do
   gem 'jekyll-gist'
   gem 'jekyll-paginate'
   gem 'jemoji'
-  gem 'jekyll-compress-html'
 end
 
 
