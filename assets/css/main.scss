@@ -1,5 +1,6 @@
 ---
 ---
+$breakpoint-media-types: 'all', 'braille', 'embossed', 'handheld', 'print', 'projection', 'screen', 'speech', 'tty', 'tv';
 
 /*
  * This file controls what is imported from /_sass
@@ -8,18 +9,23 @@
    sorted by the dependencies. Also, the first two lines of the file are required by Jekyll.
  */
 
+
 @import
     "vendor/breakpoint/breakpoint",
+
 
     "themes",
     "theme/{{ site.site_theme | default: 'default' | append: '_light' }}",
     "theme/{{ site.site_theme | default: 'default' | append: '_dark' }}",
 
+
     "include/mixins",
     "vendor/susy/susy",
 
+
     "layout/reset",
     "layout/base",
+
 
     "include/utilities",
     "layout/tables",
@@ -30,7 +36,9 @@
     "layout/footer",
     "syntax",
 
+
     "layout/forms",
+
 
     "layout/page",
     "layout/archive",
