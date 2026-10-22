@@ -25,38 +25,19 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: System info
-        run: |
-          echo "=== OS ==="
-          cat /etc/os-release 2>/dev/null || cat /System/Version.plist 2>/dev/null
-          echo "=== Ruby ==="
-          ls -la /usr/bin/ruby /usr/local/bin/ruby 2>/dev/null || echo "no system ruby"
-          which ruby || echo "ruby not in PATH"
-          ruby --version 2>/dev/null || echo "ruby version failed"
-          echo "=== Bundler ==="
-          which bundle || echo "bundle not found"
-          bundle --version 2>/dev/null || echo "bundler version failed"
-          echo "=== Gemfile ==="
-          cat $GITHUB_WORKSPACE/Gemfile
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: '3.2'
-      - name: Install gems
-        run: |
-          echo "=== Ruby after setup ==="
-          ruby --version
-          echo "=== Bundler after setup ==="
-          bundle --version
-          echo "=== Bundle install ==="
-          bundle install 2>&1 || true
+      - name: Bundle install
+        run: bundle install
       - name: Setup Pages
         id: pages
         uses: actions/configure-pages@v5
       - name: Build with Jekyll
-        run: bundle exec jekyll build --baseurl "${{ steps.pages.outputs.base_path }}"
-        env:
-          JEKYLL_ENV: production
+        run: |
+          JEKYLL_ENV=production bundle exec jekyll build --baseurl "${{ steps.pages.outputs.base_path }}" \
+            || { echo "Jekyll build failed, exiting with error"; exit 1; }
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
