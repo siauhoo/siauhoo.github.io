@@ -25,13 +25,31 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+      - name: System info
+        run: |
+          echo "=== OS ==="
+          cat /etc/os-release 2>/dev/null || cat /System/Version.plist 2>/dev/null
+          echo "=== Ruby ==="
+          ls -la /usr/bin/ruby /usr/local/bin/ruby 2>/dev/null || echo "no system ruby"
+          which ruby || echo "ruby not in PATH"
+          ruby --version 2>/dev/null || echo "ruby version failed"
+          echo "=== Bundler ==="
+          which bundle || echo "bundle not found"
+          bundle --version 2>/dev/null || echo "bundler version failed"
+          echo "=== Gemfile ==="
+          cat $GITHUB_WORKSPACE/Gemfile
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: '3.2'
-          bundler-cache: false
       - name: Install gems
-        run: bundle install
+        run: |
+          echo "=== Ruby after setup ==="
+          ruby --version
+          echo "=== Bundler after setup ==="
+          bundle --version
+          echo "=== Bundle install ==="
+          bundle install 2>&1 || true
       - name: Setup Pages
         id: pages
         uses: actions/configure-pages@v5
