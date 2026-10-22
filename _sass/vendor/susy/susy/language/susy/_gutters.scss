@@ -1,4 +1,106 @@
-// Gutter Syntax// =============// Gutters// -------// Set gutters on an element.// - [$span]   : <settings>@mixin gutters(  $span: $susy) {  $inspect  : $span;  $span     : parse-gutters($span);  $_gutters : get-gutters($span);  $_output: (    before: map-get($_gutters, before),    after: map-get($_gutters, after),    flow: susy-get(flow, $span),  );  @include susy-inspect(gutters, $inspect);  @if is-inside($span) {    @include padding-output($_output...);  } @else {    @include margin-output($_output...);  }}@mixin gutter(  $span: $susy) {  @include gutters($span);}// Gutter// ------// Return the width of a gutter.// - [$span]   : <settings>@function gutter(  $span: $susy) {  $span: parse-gutters($span);  $_gutters: get-gutters($span);  $_gutters: map-get($_gutters, before) or map-get($_gutters, after);  @return $_gutters;}@function gutters(  $span: $susy) {  @return gutter($span);}// Get Gutter Width// ----------------// Return gutter width.// - [$context]: <context>@function get-gutter-width(  $context: $susy) {  $context  : parse-gutters($context);  $_gutters : susy-get(gutters, $context);  $_gutter  : susy-get(gutter-override, $context);  @if $_gutters and ($_gutters > 0) and not($_gutter) {    $_column-width: susy-get(column-width, $context);    $_math: gutter-math($context);    @if $_math == static {      $_gutter: $_gutters * valid-column-math($_math, $_column-width);    } @else {      $_columns : susy-get(columns, $context);      $_spread  : if(is-split($context), wide, susy-get(spread, $context));      $_gutter  : percentage($_gutters / susy-sum($_columns, $_gutters, $_spread));    }  }  $_gutter: if($_gutter == 'no-gutters' or $_gutter == 'no-gutter', null, $_gutter);  @return $_gutter;}// Get Gutters// -----------// Return before and after gutter values.// - [$context]: <context>@function get-gutters(  $context: $susy) {  $context            : parse-gutters($context);
+// Gutter Syntax
+// =============
+
+
+
+// Gutters
+// -------
+// Set gutters on an element.
+// - [$span]   : <settings>
+@mixin gutters(
+  $span: $susy
+) {
+  $inspect  : $span;
+  $span     : parse-gutters($span);
+
+  $_gutters : get-gutters($span);
+
+  $_output: (
+    before: map-get($_gutters, before),
+    after: map-get($_gutters, after),
+    flow: susy-get(flow, $span),
+  );
+
+  @include susy-inspect(gutters, $inspect);
+
+  @if is-inside($span) {
+    @include padding-output($_output...);
+  } @else {
+    @include margin-output($_output...);
+  }
+}
+
+@mixin gutter(
+  $span: $susy
+) {
+  @include gutters($span);
+}
+
+
+
+// Gutter
+// ------
+// Return the width of a gutter.
+// - [$span]   : <settings>
+@function gutter(
+  $span: $susy
+) {
+  $span: parse-gutters($span);
+
+  $_gutters: get-gutters($span);
+  $_gutters: map-get($_gutters, before) or map-get($_gutters, after);
+
+  @return $_gutters;
+}
+
+@function gutters(
+  $span: $susy
+) {
+  @return gutter($span);
+}
+
+
+
+// Get Gutter Width
+// ----------------
+// Return gutter width.
+// - [$context]: <context>
+@function get-gutter-width(
+  $context: $susy
+) {
+  $context  : parse-gutters($context);
+
+  $_gutters : susy-get(gutters, $context);
+  $_gutter  : susy-get(gutter-override, $context);
+
+  @if $_gutters and ($_gutters > 0) and not($_gutter) {
+    $_column-width: susy-get(column-width, $context);
+    $_math: gutter-math($context);
+
+    @if $_math == static {
+      $_gutter: $_gutters * valid-column-math($_math, $_column-width);
+    } @else {
+      $_columns : susy-get(columns, $context);
+      $_spread  : if(is-split($context), wide, susy-get(spread, $context));
+      $_gutter  : percentage($_gutters / susy-sum($_columns, $_gutters, $_spread));
+    }
+  }
+
+  $_gutter: if($_gutter == 'no-gutters' or $_gutter == 'no-gutter', null, $_gutter);
+
+  @return $_gutter;
+}
+
+
+
+// Get Gutters
+// -----------
+// Return before and after gutter values.
+// - [$context]: <context>
+@function get-gutters(
+  $context: $susy
+) {
+  $context            : parse-gutters($context);
   $_gutter-position  : susy-get(gutter-position, $context);
   $_gutter           : get-gutter-width($context);
 
