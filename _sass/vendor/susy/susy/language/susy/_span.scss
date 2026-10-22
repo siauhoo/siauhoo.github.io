@@ -1,6 +1,5 @@
 // Span Syntax
 // ===========
-@use 'sass:math';
 
 // Span [mixin]
 // ------------
@@ -62,7 +61,7 @@
   $padding-before   : null;
   $padding-after    : null;
   $margin-before    : null;
-  $margin-after     : null;
+  $margin-after    : null;
 
   // calculate widths
   $spread: index(map-values($span), spread);
@@ -154,7 +153,7 @@
     @if $_math == static {
       $width: $span-sum * valid-column-math($_math, $_column-width);
     } @else {
-      $width: percentage(math.div($span-sum, $context));
+      $width: percentage($span-sum / $context);
     }
   } @else {
     $width: $n;

@@ -1,10 +1,10 @@
 name: Jekyll build
 
 on:
-  # Run after bad-pr check
+  # Run after bad-pr check (only when main branch has successful cleanup, else skip)
   workflow_run:
     workflows: ["Cleanup bad PR"]
-    branches: [main]
+    branches: [master]
     types:
       - completed
       
